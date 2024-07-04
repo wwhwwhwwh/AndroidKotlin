@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.zhonglv.mvvm.ThemeActivity
 import java.lang.reflect.ParameterizedType
 
 
@@ -18,7 +16,7 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : ThemeActivity() 
 
     private var _binding: VB? = null
     protected val viewBind get() = _binding!!
-    protected var mVbRoot: View? = null
+    protected var viewRoot: View? = null
 
 
     protected abstract fun initView(savedInstanceState: Bundle?)
@@ -35,9 +33,9 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : ThemeActivity() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewBind()
-        setContentView(mVbRoot)
+        setContentView(viewRoot)
         viewModel = createViewModel()
-        mVbRoot?.post {
+        viewRoot?.post {
             //初始化View
             initView(savedInstanceState)
             // 设置点击事件
@@ -56,7 +54,7 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : ThemeActivity() 
             (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<*>
         val method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
         _binding = method.invoke(null, layoutInflater) as VB
-        mVbRoot = viewBind.root
+        viewRoot = viewBind.root
     }
     /**
      * 创建viewModel

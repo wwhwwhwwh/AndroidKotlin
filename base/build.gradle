@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'maven-publish'
 }
 
 android {
@@ -23,11 +22,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '1.8'
     }
     buildFeatures {
         viewBinding true
@@ -44,38 +43,6 @@ dependencies {
 }
 
 
-afterEvaluate {
-    android.libraryVariants.each {variant->
-        publishing.publications.create(variant.name,MavenPublication){
-            from components.findByName(variant.name)
-            groupId = 'cn.zhonglv.android'
-            artifactId = 'base'
-            version = '0.0.1'
-        }
-    }
-}
-
-group = 'cn.zhonglv.android'
-version = '0.0.1'
 
 
 
-
-
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-
-
-
-
-
-artifacts {
-    archives sourcesJar
-}

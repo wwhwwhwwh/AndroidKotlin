@@ -16,15 +16,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-
-   <!--Material3-->
-    <style name="Material3" parent="Theme.Material3.Light">
-        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
-    </style>
-    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
-        <!-- Apply attributes here -->
-    </style>
-    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
-    </style>
 </resources>

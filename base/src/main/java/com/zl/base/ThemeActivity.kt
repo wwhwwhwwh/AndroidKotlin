@@ -10,6 +10,6 @@ abstract class ThemeActivity :AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    abstract fun initTheme();
+    open fun initTheme() {};
 
 }

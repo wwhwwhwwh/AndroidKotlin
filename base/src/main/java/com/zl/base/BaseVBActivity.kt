@@ -1,40 +1,35 @@
-package com.zhonglv.mvvm
+package com.zl.base
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.ParameterizedType
 
+abstract class BaseVBActivity<VB : ViewBinding> : BaseActivity() {
 
-abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : ThemeActivity()  {
-
-    lateinit var viewModel: VM
 
     private var _binding: VB? = null
+
     protected val viewBind get() = _binding!!
     protected var viewRoot: View? = null
 
 
     protected abstract fun initView(savedInstanceState: Bundle?)
 
+
+
     /**
      * 添加控件点击事件或添加监听器
      * */
     open fun initListener() {}
 
-    /**
-     * 创建ViewBinding
-     * 利用反射 根据泛型得到 ViewBinding
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewBind()
         setContentView(viewRoot)
-        viewModel = createViewModel()
+
         viewRoot?.post {
             //初始化View
             initView(savedInstanceState)
@@ -43,6 +38,7 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : ThemeActivity() 
         }
 
     }
+
     /**
      * 创建ViewBinding
      * 利用反射 根据泛型得到 ViewBinding
@@ -56,16 +52,7 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : ThemeActivity() 
         _binding = method.invoke(null, layoutInflater) as VB
         viewRoot = viewBind.root
     }
-    /**
-     * 创建viewModel
-     */
-    private fun createViewModel(): VM {
-        return ViewModelProvider(this).get(getVmClazz(this))
-    }
 
-    private fun <VM> getVmClazz(obj: Any): VM {
-        return (obj.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as VM
-    }
     override fun onDestroy() {
         super.onDestroy()
         _binding=null

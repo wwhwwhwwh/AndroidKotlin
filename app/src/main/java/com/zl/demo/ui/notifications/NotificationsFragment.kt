@@ -7,36 +7,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.zl.base.BaseVMFragment
+import com.zl.demo.databinding.FragmentHomeBinding
 import com.zl.demo.databinding.FragmentNotificationsBinding
+import com.zl.demo.ui.home.HomeViewModel
 
-class NotificationsFragment : Fragment() {
+class NotificationsFragment : BaseVMFragment<FragmentNotificationsBinding, NotificationsViewModel>() {
 
     private var _binding: FragmentNotificationsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
-
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+    override fun initView(savedInstanceState: Bundle?) {
+        val textView: TextView = viewBind.textNotifications
+        viewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

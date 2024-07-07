@@ -1,4 +1,4 @@
-package com.zhonglv.mvvm
+package com.zl.base
 
 import androidx.lifecycle.ViewModel
 
